@@ -16,6 +16,7 @@ class ChoixAttaque : public QWidget
     Q_OBJECT
 public:
     explicit ChoixAttaque(QWidget *parent = 0);
+    //ChoixAttaque(int attaque1,int attaque2,int attaque3,int attaque4);
     QPushButton* attaque1_;
     QPushButton* attaque2_;
     QPushButton* attaque3_;

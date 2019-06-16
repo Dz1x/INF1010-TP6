@@ -1,5 +1,8 @@
 #include "Gamebay.h"
 #include <iostream>
+#include "exceptionattaqueechouee.h"
+#include "exceptioncreaturemorte.h"
+#include "exceptionecheccapture.h"
 
 Gamebay::Gamebay(PolyLand* polyland, QWidget *parent) :
     QMainWindow(parent), polyland_(polyland), combatEnCours_(false), creatureHero_(nullptr), creatureAdverse_(nullptr)//,ui(new Ui::Gamebay)
@@ -11,6 +14,7 @@ Gamebay::Gamebay(PolyLand* polyland, QWidget *parent) :
 Gamebay::~Gamebay()
 {
 
+
     delete flecheGauche_;
     delete flecheDroite_;
     delete flecheHaut_;
@@ -21,7 +25,7 @@ Gamebay::~Gamebay()
     delete boutonStart_;
     delete boutonSelect_;
 
-    //delete choixAttaque_;
+    delete choixAttaque_;
 
     delete imageAccueil_;
 
@@ -106,6 +110,7 @@ void Gamebay::setUI(){
 
     //Creation du widget pour les boutons d'attaques
     //!!!!!! A COMPLETER !!!!!!
+    choixAttaque_=new ChoixAttaque(this);
 
     //Creation de l'image d'accueil
     imageAccueil_ = new QLabel(this);
@@ -119,7 +124,7 @@ void Gamebay::setUI(){
     layoutEcran->addLayout(layoutCombat);
     //Vous devez ajouter le widget pour le choix d'attaque dans le layoutEcran
     //!!!!!! A COMPLETER !!!!!!
-
+    layoutEcran->addWidget(choixAttaque_);
     layoutAffichagePrincipal->addLayout(layoutEcran);
 
     //Layout permettant d'ordonner la partie basse de la fenetre
@@ -181,6 +186,16 @@ void Gamebay::setConnections(){
     //!!!!!! A COMPLETER !!!!!!
 
     //Connexions de differents slots sur des signaux
+
+    QObject::connect(this,SIGNAL(creatureAdverseVaincue()),this,SLOT(afficherCapture()));
+    QObject::connect(choixAttaque_->attaque1_,SIGNAL(clicked(bool)),this,SLOT(attaquerCreatureAdverse()));
+    QObject::connect(choixAttaque_->attaque2_,SIGNAL(clicked(bool)),this,SLOT(attaquerCreatureAdverse()));
+    QObject::connect(choixAttaque_->attaque3_,SIGNAL(clicked(bool)),this,SLOT(attaquerCreatureAdverse()));
+    QObject::connect(choixAttaque_->attaque4_,SIGNAL(clicked(bool)),this,SLOT(attaquerCreatureAdverse()));
+    QObject::connect(menu_->boutonAffichageCreaturesDresseur_,SIGNAL(clicked(bool)),this,SLOT(afficherCreaturesDresseur()));
+
+    QObject::connect(menu_->boutonAttaques_,SIGNAL(clicked(bool)),this,SLOT(afficherAttaques()));
+    QObject::connect(boutonStart_,SIGNAL(clicked(bool)),this,SLOT(gestionDuMenu()));
     QObject::connect(menu_->boutonAffichageCreatures_, SIGNAL(clicked(bool)), this, SLOT(afficherCreatures()));
     QObject::connect(menu_->boutonAffichageDresseurs_, SIGNAL(clicked(bool)), this, SLOT(afficherDresseurs()));
     QObject::connect(menu_->boutonAffichageInventaire_, SIGNAL(clicked(bool)), this, SLOT(afficherInventaire()));
@@ -191,6 +206,9 @@ void Gamebay::setConnections(){
 
 void Gamebay::afficherCreaturesDresseur(){
     //!!!!!! A COMPLETER !!!!!!
+
+ menu_->afficherListeCreaturesDresseur(polyland_->obtenirHero());
+
 }
 
 void Gamebay::afficherCapture(){
@@ -248,8 +266,10 @@ void Gamebay::changerCreature(QListWidgetItem* item){
                                                     , pokomonDresseur_->height(),
                                                                     Qt::KeepAspectRatio));
     }else{
-        //!!!!!! A COMPLETER !!!!!!
-        //Sinon la creature est deja vaincue;
+
+       emit creatureVaincue();
+
+
     }
 }
 
@@ -305,28 +325,95 @@ QPixmap Gamebay::obtenirImageCreature(Creature* creature){
     }
 }
 
+
 void Gamebay::attaquerCreatureAdverse(){
     //Cette methode va permettre de voir les consequences de votre attaque sur la creature adverse
      //!!!!!! A COMPLETER !!!!!!
-     QObject* button = QObject::sender();
+string erreur;
+
+try{
+
+    if(creatureAdverse_->obtenirPointDeVie()==0){
+        if(ExceptionCreatureMorte::obtenirValeurCompteur()<3){
+            erreur="la creature est deja morte!";
+        }
+        else if(ExceptionCreatureMorte::obtenirValeurCompteur()<5){
+            erreur="vous etes vraiment persistant";
+
+        }
+        else {
+            erreur="laissez la pauvre creature tranquille";
+        }
+
+        throw ExceptionCreatureMorte(erreur);
+    }
+
+
+}
+
+catch(ExceptionCreatureMorte&e){
+
+    QMessageBox messageBox;
+     messageBox.critical(0,"ERREUR" ,e.what());
+
+}
+
+
+
+
+
+
+try{
+
+    QObject* button = QObject::sender();
      //On va faire l'attaque en fonction du bouton clique
      if(button == choixAttaque_->attaque1_){
+         if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[0]->obtenirEnergieNecessaire()){
+
+                 throw ExceptionAttaqueEchouee();
+     }
+
         creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[0]), *creatureAdverse_);
      }else if(button == choixAttaque_->attaque2_){
+         if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[1]->obtenirEnergieNecessaire()){
+
+               throw ExceptionAttaqueEchouee();
+             }
         creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[1]), *creatureAdverse_);
      }else if(button == choixAttaque_->attaque3_){
+          if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[2]->obtenirEnergieNecessaire()){
+
+              throw ExceptionAttaqueEchouee();
+        }
         creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[2]), *creatureAdverse_);
      }else{
+         if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[3]->obtenirEnergieNecessaire()){
+
+             throw ExceptionAttaqueEchouee();
+       }
         creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[3]), *creatureAdverse_);
      }
      //On met a jour les informations des creatures
      informationsAdversaire_->modifierAffichageInformationCreature(creatureAdverse_);
      informationsDresseur_->modifierAffichageInformationCreature(creatureHero_);
+
+     if(creatureAdverse_->obtenirPointDeVie()==0)
+         emit creatureAdverseVaincue();
      //Nous vous demandons d'attraper deux types d'exception ici, a vous de voir lesquels
      //Pour l'exception que vous trouverez pertinente, vous devez afficher :
      //-Un certain message lorsque cette exception a ete lance strictement moins de 3 fois
      //-Un autre message lorsque cette exception a ete lance strictement moins de 5 fois
      //-Un dernier message lorsque cette exception a ete lance plus de 5 fois
+    }
+
+catch(ExceptionAttaqueEchouee&e){
+
+    QMessageBox messageBox;
+     messageBox.critical(0,"ERREUR" ,e.what());
+
+
+ }
+
 }
 
 void Gamebay::gestionDuMenu(){
@@ -343,7 +430,62 @@ void Gamebay::gestionDuMenu(){
 }
 
 void Gamebay::capturerCreatureAdverse(){
-    //!!!!!! A COMPLETER !!!!!!
+bool test=false;
     QMessageBox msg;
-    polyland_->attraperCreature(&polyland_->obtenirHero(), creatureAdverse_);
+try{
+    for(Creature* i: polyland_->obtenirHero().obtenirCreatures()){
+        if(i->obtenirNom()==creatureAdverse_->obtenirNom())
+            test=true;
+            throw ExceptionEchecCapture();
+    }
+
+
 }
+    catch (ExceptionEchecCapture&e) {
+
+
+            msg.critical(0,"ERREUR DE CAPTURE",e.what());
+
+
+       }
+
+    if(!test){
+    polyland_->attraperCreature(&polyland_->obtenirHero(), creatureAdverse_);
+    }
+
+
+
+
+}
+
+
+
+
+void Gamebay::afficherAttaques(){
+
+choixAttaque_->afficherAttaques(creatureHero_);
+
+}
+
+
+
+/*void Gamebay::attraperCreatureAdverse(){
+
+
+    try {
+
+        capturerCreatureAdverse();
+
+    } catch (ExceptionEchecCapture&e) {
+         QMessageBox msg;
+
+         msg.critical(0,"ERREUR DE CAPTURE",e.what());
+
+
+    }
+
+
+}*/
+
+
+

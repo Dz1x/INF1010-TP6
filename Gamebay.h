@@ -48,7 +48,6 @@ private:
     QLabel* flecheDroite_;
     QLabel* flecheHaut_;
     QLabel* flecheBas_;
-
     QPushButton* boutonA_;
     QPushButton* boutonB_;
     QPushButton* boutonStart_;
@@ -79,8 +78,15 @@ private:
 signals:
     //!!!!!! A COMPLETER !!!!!!
 
+
+    void creatureAdverseVaincue();
+    void creatureVaincue();
+
+
 private slots:
     //!!!!!! A COMPLETER !!!!!!
+    //void attraperCreatureAdverse();
+    void afficherAttaques();
     void afficherCreaturesDresseur();
     void changerCreature(QListWidgetItem*);
     void afficherCreatures();

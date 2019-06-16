@@ -11,9 +11,18 @@ ChoixAttaque::ChoixAttaque(QWidget *parent) : QWidget(parent)
 
     // Layout principal du Widget
     //!!!!!! A COMPLETER !!!!!!
+   QGridLayout* layout= new QGridLayout();
+    layout->addWidget(attaque1_,0,0);
+    layout->addWidget(attaque2_,0,1);
+    layout->addWidget(attaque3_,1,0);
+    layout->addWidget(attaque4_,1,1);
     //Vous devez creer un gridLayout et y placer les differents boutons
     //N'oubliez pas de mettre en place le layout sur le widget
-    masquerAttaques();
+   this->setLayout(layout);
+    //parent->setLayout(layout);
+    //parent->show();
+    //masquerAttaques();
+
 }
 
 void ChoixAttaque::afficherAttaques(){
