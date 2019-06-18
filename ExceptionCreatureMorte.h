@@ -1,3 +1,10 @@
+/****************************************************************************
+ * Fichier: ExceptionAttaqueMorte.h
+ * Auteurs : Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Date: 17 juin 2019
+ * Description: Définition de la classe ExceptionAttaqueMorte
+ ****************************************************************************/
+
 #ifndef EXCEPTIONCREATUREMORTE_H
 #define EXCEPTIONCREATUREMORTE_H
 
