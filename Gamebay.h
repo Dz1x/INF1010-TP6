@@ -1,9 +1,11 @@
-/*
-Fichier: Gamebay.h
-Auteur(s): Alexandre MAO
-Date de creation: 15 Novembre 2016
-Description: Widget principal qui va etre utiliser pour creer la fenetre du jeu
-*/
+/****************************************************************************
+ * Fichier: Gamebay.h
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Widget principal qui va etre utiliser pour creer la fenetre du jeu
+ ****************************************************************************/
+
 #ifndef GAMEBAY_H
 #define GAMEBAY_H
 
@@ -74,18 +76,13 @@ private:
 
     QPixmap obtenirImageCreature(Creature* creature);
 
-
 signals:
     //!!!!!! A COMPLETER !!!!!!
-
-
     void creatureAdverseVaincue();
     void creatureVaincue();
 
-
 private slots:
     //!!!!!! A COMPLETER !!!!!!
-    //void attraperCreatureAdverse();
     void afficherAttaques();
     void afficherCreaturesDresseur();
     void changerCreature(QListWidgetItem*);
@@ -100,6 +97,6 @@ private slots:
     void gestionDuMenu();
     void afficherCapture();
     void capturerCreatureAdverse();
-};
 
+};
 #endif // GAMEBAY_H

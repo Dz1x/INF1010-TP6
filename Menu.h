@@ -1,9 +1,11 @@
-/*
-Fichier: Menu.h
-Auteur(s): Alexandre MAO
-Date de creation: 15 Novembre 2016
-Description: Widget graphique qui servir de menu au jeu
-*/
+/****************************************************************************
+ * Fichier: Menu.h
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Widget graphique qui servir de menu au jeu
+ ****************************************************************************/
+
 #ifndef MENU_H
 #define MENU_H
 

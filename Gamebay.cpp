@@ -1,8 +1,16 @@
+/****************************************************************************
+ * Fichier: Menu.cpp
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Implementation de la classe Gamebay
+ ****************************************************************************/
+
 #include "Gamebay.h"
 #include <iostream>
-#include "exceptionattaqueechouee.h"
-#include "exceptioncreaturemorte.h"
-#include "exceptionecheccapture.h"
+#include "ExceptionAttaqueEchouee.h"
+#include "ExceptionCreatureMorte.h"
+#include "ExceptionEchecCapture.h"
 
 Gamebay::Gamebay(PolyLand* polyland, QWidget *parent) :
     QMainWindow(parent), polyland_(polyland), combatEnCours_(false), creatureHero_(nullptr), creatureAdverse_(nullptr)//,ui(new Ui::Gamebay)
@@ -204,10 +212,13 @@ void Gamebay::setConnections(){
     QObject::connect(menu_->boutonCapturer_, SIGNAL(clicked(bool)), this, SLOT(capturerCreatureAdverse()));
 }
 
+void Gamebay::afficherAttaques(){
+    choixAttaque_->afficherAttaques(creatureHero_);
+}
+
 void Gamebay::afficherCreaturesDresseur(){
     //!!!!!! A COMPLETER !!!!!!
-
- menu_->afficherListeCreaturesDresseur(polyland_->obtenirHero());
+    menu_->afficherListeCreaturesDresseur(polyland_->obtenirHero());
 
 }
 
@@ -265,10 +276,10 @@ void Gamebay::changerCreature(QListWidgetItem* item){
         pokomonDresseur_->setPixmap(obtenirImageCreature(creatureHero_).scaled(pokomonDresseur_->width()
                                                     , pokomonDresseur_->height(),
                                                                     Qt::KeepAspectRatio));
-    }else{
+    }
+    else {
 
        emit creatureVaincue();
-
 
     }
 }
@@ -328,92 +339,56 @@ QPixmap Gamebay::obtenirImageCreature(Creature* creature){
 
 void Gamebay::attaquerCreatureAdverse(){
     //Cette methode va permettre de voir les consequences de votre attaque sur la creature adverse
-     //!!!!!! A COMPLETER !!!!!!
-string erreur;
-
-try{
-
-    if(creatureAdverse_->obtenirPointDeVie()==0){
-        if(ExceptionCreatureMorte::obtenirValeurCompteur()<3){
-            erreur="la creature est deja morte!";
+    //!!!!!! A COMPLETER !!!!!!
+    QObject* button = QObject::sender();
+    try{
+        //On va faire l'attaque en fonction du bouton clique
+        if(button == choixAttaque_->attaque1_){
+            creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[0]), *creatureAdverse_);
+        } else if(button == choixAttaque_->attaque2_){
+            creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[1]), *creatureAdverse_);
+        }else if(button == choixAttaque_->attaque3_){
+            creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[2]), *creatureAdverse_);
+        }else {
+            creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[3]), *creatureAdverse_);
         }
-        else if(ExceptionCreatureMorte::obtenirValeurCompteur()<5){
-            erreur="vous etes vraiment persistant";
 
+        //On met a jour les informations des creatures
+        informationsAdversaire_->modifierAffichageInformationCreature(creatureAdverse_);
+        informationsDresseur_->modifierAffichageInformationCreature(creatureHero_);
+    }
+
+    //Nous vous demandons d'attraper deux types d'exception ici, a vous de voir lesquels
+    //Pour l'exception que vous trouverez pertinente, vous devez afficher :
+    //-Un certain message lorsque cette exception a ete lance strictement moins de 3 fois
+    //-Un autre message lorsque cette exception a ete lance strictement moins de 5 fois
+    //-Un dernier message lorsque cette exception a ete lance plus de 5 fois
+    catch (ExceptionAttaqueEchouee err1) {
+        QString titreMessageBox = QString("Echec de l'attacque");
+        QMessageBox::critical(this, titreMessageBox, err1.what());
+    }
+
+    catch (ExceptionCreatureMorte err2) {
+        QString messageBox;
+        if(ExceptionCreatureMorte::obtenirValeurCompteur() < 3) {
+            messageBox = QString("Arretez c'est déjà fini!");
+        }
+        else if(ExceptionCreatureMorte::obtenirValeurCompteur() < 4) {
+            messageBox = QString("Hey ca fait deja 3 fois que vous essayez...");
+        }
+        else if(ExceptionCreatureMorte::obtenirValeurCompteur() < 5) {
+            messageBox = QString("Hey ca fait deja 4 fois que vous essayez...");
         }
         else {
-            erreur="laissez la pauvre creature tranquille";
+            messageBox = QString("Vous dis donc...Vous etes vraiment sadique a vous acharner sur une pauvre creature deja morte");
         }
+        QMessageBox::critical(0,err2.what(), messageBox );
 
-        throw ExceptionCreatureMorte(erreur);
     }
 
-
-}
-
-catch(ExceptionCreatureMorte&e){
-
-    QMessageBox messageBox;
-     messageBox.critical(0,"ERREUR" ,e.what());
-
-}
-
-
-
-
-
-
-try{
-
-    QObject* button = QObject::sender();
-     //On va faire l'attaque en fonction du bouton clique
-     if(button == choixAttaque_->attaque1_){
-         if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[0]->obtenirEnergieNecessaire()){
-
-                 throw ExceptionAttaqueEchouee();
-     }
-
-        creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[0]), *creatureAdverse_);
-     }else if(button == choixAttaque_->attaque2_){
-         if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[1]->obtenirEnergieNecessaire()){
-
-               throw ExceptionAttaqueEchouee();
-             }
-        creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[1]), *creatureAdverse_);
-     }else if(button == choixAttaque_->attaque3_){
-          if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[2]->obtenirEnergieNecessaire()){
-
-              throw ExceptionAttaqueEchouee();
-        }
-        creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[2]), *creatureAdverse_);
-     }else{
-         if(creatureHero_->obtenirEnergie()<creatureHero_->obtenirPouvoirs()[3]->obtenirEnergieNecessaire()){
-
-             throw ExceptionAttaqueEchouee();
-       }
-        creatureHero_->attaquer(*(creatureHero_->obtenirPouvoirs()[3]), *creatureAdverse_);
-     }
-     //On met a jour les informations des creatures
-     informationsAdversaire_->modifierAffichageInformationCreature(creatureAdverse_);
-     informationsDresseur_->modifierAffichageInformationCreature(creatureHero_);
-
-     if(creatureAdverse_->obtenirPointDeVie()==0)
-         emit creatureAdverseVaincue();
-     //Nous vous demandons d'attraper deux types d'exception ici, a vous de voir lesquels
-     //Pour l'exception que vous trouverez pertinente, vous devez afficher :
-     //-Un certain message lorsque cette exception a ete lance strictement moins de 3 fois
-     //-Un autre message lorsque cette exception a ete lance strictement moins de 5 fois
-     //-Un dernier message lorsque cette exception a ete lance plus de 5 fois
+    if(creatureAdverse_->obtenirPointDeVie() <= 0){
+        emit creatureAdverseVaincue();
     }
-
-catch(ExceptionAttaqueEchouee&e){
-
-    QMessageBox messageBox;
-     messageBox.critical(0,"ERREUR" ,e.what());
-
-
- }
-
 }
 
 void Gamebay::gestionDuMenu(){
@@ -430,62 +405,19 @@ void Gamebay::gestionDuMenu(){
 }
 
 void Gamebay::capturerCreatureAdverse(){
-bool test=false;
+    //!!!!!! A COMPLETER !!!!!!
     QMessageBox msg;
-try{
-    for(Creature* i: polyland_->obtenirHero().obtenirCreatures()){
-        if(i->obtenirNom()==creatureAdverse_->obtenirNom())
-            test=true;
-            throw ExceptionEchecCapture();
+    try{
+        polyland_->attraperCreature(&polyland_->obtenirHero(), creatureAdverse_);
     }
-
-
-}
-    catch (ExceptionEchecCapture&e) {
-
-
-            msg.critical(0,"ERREUR DE CAPTURE",e.what());
-
-
-       }
-
-    if(!test){
-    polyland_->attraperCreature(&polyland_->obtenirHero(), creatureAdverse_);
+    catch (ExceptionEchecCapture err3)
+    {
+        QString messageBox = QString("Vous possedez deja cette creature");
+            QMessageBox::critical(this, err3.what(), messageBox);
     }
-
-
-
-
 }
 
 
-
-
-void Gamebay::afficherAttaques(){
-
-choixAttaque_->afficherAttaques(creatureHero_);
-
-}
-
-
-
-/*void Gamebay::attraperCreatureAdverse(){
-
-
-    try {
-
-        capturerCreatureAdverse();
-
-    } catch (ExceptionEchecCapture&e) {
-         QMessageBox msg;
-
-         msg.critical(0,"ERREUR DE CAPTURE",e.what());
-
-
-    }
-
-
-}*/
 
 
 

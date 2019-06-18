@@ -16,6 +16,9 @@ RESOURCES += \
     images.qrc
 
 SOURCES += main.cpp\
+    ExceptionAttaqueEchouee.cpp \
+    ExceptionCreatureMorte.cpp \
+    ExceptionEchecCapture.cpp \
         Gamebay.cpp \
     Menu.cpp \
     ChoixAttaque.cpp \
@@ -24,21 +27,21 @@ SOURCES += main.cpp\
     Polyland.cpp \
     Pouvoir.cpp \
     ObjetMagique.cpp \
-    AffichageInformationCreature.cpp \
-    exceptionattaqueechouee.cpp \
-    exceptioncreaturemorte.cpp \
-    exceptionecheccapture.cpp
+    AffichageInformationCreature.cpp
 
 HEADERS  += Gamebay.h \
+    ExceptionAttaqueEchouee.h \
+    ExceptionCreatureMorte.h \
+    ExceptionEchecCapture.h \
+    Foncteur.h \
     Menu.h \
     ChoixAttaque.h \
     Creature.h \
     Dresseur.h \
-    Polyland.h \
+    MondeMagique.h \
+    Pokomon.h \
+    PolyLand.h \
     Pouvoir.h \
     ObjetMagique.h \
-    AffichageInformationCreature.h \ \
-    exceptionattaqueechouee.h \
-    exceptioncreaturemorte.h \
-    exceptionecheccapture.h
+    AffichageInformationCreature.h \
 

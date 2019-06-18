@@ -1,3 +1,11 @@
+/****************************************************************************
+ * Fichier: AffichageInformationCreature.h
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Definition de la classe AffichageInformationCreature
+ ****************************************************************************/
+
 #ifndef AFFICHAGEINFORMATIONCREATURE_H
 #define AFFICHAGEINFORMATIONCREATURE_H
 #include <QGraphicsView>

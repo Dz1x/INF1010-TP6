@@ -6,7 +6,7 @@
 class ExceptionEchecCapture : public std::runtime_error
 {
 public:
-    ExceptionEchecCapture(const std::string& descriptionErreur = "Vous possedez deja cette creature!");
+    ExceptionEchecCapture(const std::string& descriptionErreur);
 
 };
 

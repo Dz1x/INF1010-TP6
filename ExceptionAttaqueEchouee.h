@@ -7,7 +7,7 @@
 class ExceptionAttaqueEchouee : public std::runtime_error
 {
 public:
-    ExceptionAttaqueEchouee(const std::string & descriptionErreur = "Votre creature n'as plus d'energie!");
+    ExceptionAttaqueEchouee(const std::string & descriptionErreur);
 };
 
 #endif // EXCEPTIONATTAQUEECHOUEE_H

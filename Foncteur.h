@@ -1,5 +1,13 @@
-#ifndef  FRONTEUR
-#define  FRONTEUR
+/****************************************************************************
+ * Fichier: Foncteur.h
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Definition et implementation de la classe Foncteur
+ ****************************************************************************/
+
+#ifndef  FONCTEUR_H
+#define  FONCTEUR_H
 
 #include "Dresseur.h"
 #include <string>
@@ -8,6 +16,9 @@
 #define RAND_MIN_DEFAUT 0
 #define RAND_MAX_DEFAUT 6
 
+/****************************************************************************
+ * Foncteur: Permet d'obtenir l'attaque de la créature passée en argument
+ ****************************************************************************/
 class FoncteurObtenirAttaqueCreature
 {
 public:
@@ -19,6 +30,9 @@ public:
     }
 };
 
+/****************************************************************************
+ * Foncteur: Prend en argument deux pointeurs de créature et renvoie true si la première créature a une attaque inférieure à celle de la deuxième.
+ ****************************************************************************/
 class FoncteurComparerCreature
 {
 public:
@@ -30,6 +44,11 @@ public:
 	}
 };
 
+/****************************************************************************
+ * Foncteur: Prend en argument deux pointeurs de dresseurs et renvoie true si le premier a un
+             nom strictement inférieur au nom du second. Cette comparaison se fera selon l’ordre
+             alphanumérique.
+ ****************************************************************************/
 class FoncteurComparerDresseur
 {
 public:
@@ -41,6 +60,10 @@ public:
 	}
 };
 
+/****************************************************************************
+ * Foncteur: Prend en argument deux pointeurs de pouvoir et renvoie true si le premier pouvoir a
+             un nombre de dégâts inférieur à celui du deuxième.
+ ****************************************************************************/
 class FoncteurComparerPouvoir
 {
 public:
@@ -52,6 +75,10 @@ public:
 	}
 };
 
+/****************************************************************************
+ * Foncteur: Prend en argument un pointeur vers une créature et incrémente une variable interne
+             si les points de vie de la créature sont entre ces bornes
+ ****************************************************************************/
 class FoncteurCreatureVie
 {
 public:
@@ -77,6 +104,10 @@ private:
 	unsigned int compteur_;
 };
 
+/****************************************************************************
+ * Foncteur: Prend en argument un pointeur de créature et renvoie true si cette créature a le même
+             nom que l’attribut de la classe correspondant
+ ****************************************************************************/
 class FoncteurCreaturesDeMemeNom
 {
 public:
@@ -93,6 +124,10 @@ private:
 	std::string nom_;
 };
 
+/****************************************************************************
+ * Foncteur: Ce foncteur prend en argument un pointeur de créature et renvoie true si cette créatures est égale
+             à l’attribut creature du foncteur (au sens de leur opérateur ==).
+ ****************************************************************************/
 class FoncteurEgalCreatures
 {
 public:
@@ -109,6 +144,9 @@ private:
 	Creature* creature_;
 };
 
+/****************************************************************************
+ * Foncteur: Permet de générer un nombre aléatoire compris dans un intervalle
+ ****************************************************************************/
 class FoncteurGenerateurNombresAlea
 {
 public:
@@ -134,4 +172,4 @@ private:
 };
 
 
-#endif;
+#endif; // !FONCTEUR_H

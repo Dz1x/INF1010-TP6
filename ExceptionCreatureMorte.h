@@ -8,7 +8,7 @@ class ExceptionCreatureMorte : public std::runtime_error
 {
 public:
 
-    ExceptionCreatureMorte(const std::string& descriptionErreur = "");
+    ExceptionCreatureMorte(const std::string& descriptionErreur);
 
     static int obtenirValeurCompteur();
 

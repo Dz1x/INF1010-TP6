@@ -1,3 +1,12 @@
+/****************************************************************************
+ * Fichier: Creature.cpp
+ * Auteur: Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Date: 15 mai 2019
+ * Mise à jour : 17 juin 2019
+ * Description: Implémentation de la classe Créature
+ *				Les créatures sont des êtres destinées au combat.
+ ****************************************************************************/
+
 #include <stdio.h>
 #include <iostream>
 #include <iterator>
@@ -9,6 +18,12 @@
 
 #define EXPERIENCE_NECESSAIRE_DEFAUT 100
 
+/****************************************************************************
+ * Fonction: Creature::Creature
+ * Description: Constructeur par défaut
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
 Creature::Creature() :nom_(""), attaque_(0), defense_(0), pointDeVie_(0),
 energie_(0), experience_(0), niveau_(1)//, pouvoirs_(4, nullptr)
 {
@@ -17,6 +32,17 @@ energie_(0), experience_(0), niveau_(1)//, pouvoirs_(4, nullptr)
 	pointDeVieTotal_ = 0;
 }
 
+/****************************************************************************
+ * Fonction: Creature::Creature
+ * Description: Constructeur par paramètres
+ * Paramètres: - (string) nom: nom de la créature
+ *             - (unsigned int) attaque: attaque de la créature
+ *             - (unsigned int) defense: défense de la créature
+ *             - (unsigned int) pointDeVie: point de vie de la créature
+ *             - (unsigned int) energie: attaque de la créature pour une attaque
+ *             - (Pouvoir) pouvoir: pouvoir magique de la créature
+ * Retour: aucun
+ ****************************************************************************/
 Creature::Creature(const std::string& nom, unsigned int attaque,
 	unsigned int defense, unsigned int pointDeVie, unsigned int energie) :
 	nom_(nom), attaque_(attaque), defense_(defense), pointDeVie_(pointDeVie),
@@ -27,6 +53,29 @@ Creature::Creature(const std::string& nom, unsigned int attaque,
 	pointDeVieTotal_ = pointDeVie;
 }
 
+/****************************************************************************
+ * Fonction: Creature::Creature
+ * Description: Constructeur par copie
+ * Paramètres: - (Creature) creature: L'objet créature à copier
+ * Retour: aucun
+ ****************************************************************************/
+Creature::Creature(const Creature& creature)
+    : nom_(creature.nom_), attaque_(creature.attaque_), defense_(creature.defense_), pointDeVie_(creature.pointDeVie_),
+    pointDeVieTotal_(creature.pointDeVieTotal_), energie_(creature.energie_), energieTotal_(creature.energieTotal_),
+     experience_(creature.experience_), experienceNecessaire_(creature.experienceNecessaire_), niveau_(creature.niveau_)
+{
+    for (Pouvoir* pouvoir : creature.pouvoirs_)
+    {
+        pouvoirs_.push_back(new Pouvoir(*pouvoir));
+    }
+}
+
+/****************************************************************************
+ * Fonction: Creature::~Creature
+ * Description: Destructeur de l'objet Creature
+ * Paramètres: aucun
+ * Retour: aucun
+ ****************************************************************************/
 Creature::~Creature()
 {
 	while (pouvoirs_.size() != 0)
@@ -37,62 +86,104 @@ Creature::~Creature()
 	}
 }
 
-std::string Creature::obtenirNom() const
-{
-	return nom_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirNom
+ * Description: Retourne le nom de la créature
+ * Paramètres: aucun
+ * Retour: (string) la valeur de nom_
+ ****************************************************************************/
+std::string Creature::obtenirNom() const { return nom_; }
 
-unsigned int Creature::obtenirAttaque() const
-{
-	return attaque_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirAttaque
+ * Description: Retourne les points d'attaque de la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de attaque_
+ ****************************************************************************/
+unsigned int Creature::obtenirAttaque() const { return attaque_; }
 
-unsigned int Creature::obtenirDefense() const
-{
-	return defense_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirDefense
+ * Description: Retourne les points de defense de la creature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de defense_
+ ****************************************************************************/
+unsigned int Creature::obtenirDefense() const { return defense_; }
 
-unsigned int Creature::obtenirPointDeVie() const
-{
-	return pointDeVie_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirPointDeVie
+ * Description: Retourne le nombre de point de vie courant de la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de pointDeVie_
+ ****************************************************************************/
+unsigned int Creature::obtenirPointDeVie() const { return pointDeVie_; }
 
-unsigned int Creature::obtenirPointDeVieTotal() const
-{
-	return pointDeVieTotal_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirPointDeVieTotal
+ * Description: Retourne le nombre de point de vie maximum de la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de pointDeVieTotal_
+ ****************************************************************************/
+unsigned int Creature::obtenirPointDeVieTotal() const { return pointDeVieTotal_; }
 
-unsigned int Creature::obtenirEnergie() const
-{
-	return energie_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirEnergie
+ * Description: Retourne le niveau d'énergie de la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de energie_
+ ****************************************************************************/
+unsigned int Creature::obtenirEnergie() const { return energie_; }
 
-unsigned int Creature::obtenirEnergieTotale() const
-{
-	return energieTotal_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirNomEnergieTotale
+ * Description: Retourne le niveau d'énergie maximum que peut avoir la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de energieTotal_
+ ****************************************************************************/
+unsigned int Creature::obtenirEnergieTotale() const { return energieTotal_; }
 
-unsigned int Creature::obtenirExperience() const
-{
-	return experience_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirExperience
+ * Description: Retourne le nombre de points d'expérience de la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de experience_
+ ****************************************************************************/
+unsigned int Creature::obtenirExperience() const { return experience_; }
 
-unsigned int Creature::obtenirExperienceNecessaire() const
-{
-	return experienceNecessaire_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirExperienceNecessaire
+ * Description: Retourne l'expérience necessaire, de la créature, pour
+ *              qu'il puisse atteindre le prochain
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de experienceNecessaire_
+ ****************************************************************************/
+unsigned int Creature::obtenirExperienceNecessaire() const { return experienceNecessaire_; }
 
-unsigned int Creature::obtenirNiveau() const
-{
-	return niveau_;
-}
+/****************************************************************************
+ * Fonction: Creature::obtenirNiveau
+ * Description: Retourne le niveau de la créature
+ * Paramètres: aucun
+ * Retour: (unsigned int) la valeur de niveau_
+ ****************************************************************************/
+unsigned int Creature::obtenirNiveau() const { return niveau_; }
 
+/****************************************************************************
+ * Fonction: Creature::obtenirPouvoirs
+ * Description: Retourne les pouvoirs d'une creature
+ * Paramètres: aucun
+ * Retour: (Pouvoir*) la liste des pouvoirs de la creature
+ ****************************************************************************/
 std::vector<Pouvoir*> Creature::obtenirPouvoirs() const
 {
-	return pouvoirs_;
+    return pouvoirs_;
 }
 
-
+/****************************************************************************
+ * Fonction: Creature::attaquer
+ * Description: Fait une attaque sur une autre créature
+ * Paramètres: - (Creature) creature: la créature qui va subir l'attaque
+ * Retour: aucun
+ ****************************************************************************/
 void Creature::attaquer(const Pouvoir & pouvoir, Creature & creature)
 {
 	bool pouvoirEstDansVector = false;
@@ -103,14 +194,18 @@ void Creature::attaquer(const Pouvoir & pouvoir, Creature & creature)
 			pouvoirEstDansVector = true;
 		}
 	}
+
 	if (energie_ >= pouvoir.obtenirEnergieNecessaire() && pouvoirEstDansVector)
 	{
 		if (creature.obtenirPointDeVie() > 0) {
+
 			//Calcul du nombre de degat selon une formule
 			unsigned int degat = abs((int)((pouvoir.obtenirNombreDeDegat())* (attaque_ / 2 - creature.defense_)));
 			int tentative = rand() % 6;
+
 			//l'attaque rate une fois sur 6
 			if (tentative != 3) {
+
 				std::cout << nom_ << " lance " << pouvoir.obtenirNom() << " qui inflige "
                             << degat << " degat a " << creature.obtenirNom() << std::endl;
 				if (degat > creature.obtenirPointDeVie()) {
@@ -118,26 +213,40 @@ void Creature::attaquer(const Pouvoir & pouvoir, Creature & creature)
                     int xp = abs(experienceGagnee(creature));
 					std::cout << nom_ << " a gagn� " << xp << " XP" << std::endl;
 				}
+
 				else
 					creature.modifierPointDeVie(creature.obtenirPointDeVie() - degat);
 				std::cout << creature.obtenirNom() << " a encore " << creature.obtenirPointDeVie() << " PV" << std::endl;
 				energie_ -= pouvoir.obtenirEnergieNecessaire();
-			}
+            }
         }
 
+        else {
+            //Si la créature adverse n’a plus de point de vie, une exception, de type ExceptionCreatureMorte, est lancée.
+            throw ExceptionCreatureMorte("Creature adverse deja morte");
+        }
 	}
 
+    else {
+        //Si la créature attaquant n’a plus d’énergie, une exception, de type ExceptionAttaqueEchouee, est lancée.
+        throw ExceptionAttaqueEchouee("Votre creature n'as plus d'energie!");
+    }
 }
 
+/****************************************************************************
+ * Fonction: Creature::experienceGagnee
+ * Description: Calcule et donne lexpérience gagnée lors dun combat avec une autre créature
+ * Paramètres: - (Creature) creature: un ojet de la classe creature qui est passé par adresse
+ * Retour: la valeur de experience ou 0
+ ****************************************************************************/
 int Creature::experienceGagnee(const Creature& creature)
 {
     //!!!!!! A COMPLETER !!!!!!
 	if (creature.obtenirPointDeVie() <= 0) {
 		//Calcul de l'experience selon une formule
-		int experience = (creature.obtenirNiveau() + 1 - niveau_) * ((creature.obtenirAttaque() + 5 - attaque_)
-            * (creature.obtenirDefense() + 3 - defense_)) + (pointDeVie_ / 2);
-		if (experience > (experienceNecessaire_ - experience_)) {
-			int experienceRestante = experience - (experienceNecessaire_ - experience_);
+         unsigned int experience = (creature.obtenirNiveau() + 1 - niveau_) * ((creature.obtenirAttaque() + 5 - attaque_) * (creature.obtenirDefense() + 3 - defense_)) + (pointDeVie_ / 2);
+        if (experience > (obtenirExperienceNecessaire() - obtenirExperience())) {
+            int experienceRestante = experience - (experienceNecessaire_ - experience_);
             experienceRestante = abs(experienceRestante);
 			niveau_++;
 			attaque_ += 1;
@@ -157,6 +266,12 @@ int Creature::experienceGagnee(const Creature& creature)
 	return 0;
 }
 
+/****************************************************************************
+ * Fonction: Creature::apprendrerPouvoir
+ * Description: Qui permet d'ajouter un pouvoir à une créature
+ * Paramètres: - (Pouvoir*) pouvoir : Le pouvoir que l'on veut ajouter
+ * Retour: aucun
+ ****************************************************************************/
 bool Creature::apprendrePouvoir(Pouvoir* pouvoir)
 {
 	for (unsigned int i = 0; i < pouvoirs_.size(); i++)
@@ -170,6 +285,12 @@ bool Creature::apprendrePouvoir(Pouvoir* pouvoir)
 	return true;
 }
 
+/****************************************************************************
+ * Fonction: Creature::oublierPouvoir
+ * Description: Qui permet à une créature d'oublier un de ses pouvoirs
+ * Paramètres: - (Pouvoir*) pouvoir : Le pouvoir que l'on veut faire oublier
+ * Retour: (bool) true or false
+ ****************************************************************************/
 bool Creature::oublierPouvoir(Pouvoir* pouvoir)
 {
 	for (int i = 0; i < pouvoirs_.size(); i++)
@@ -188,41 +309,68 @@ bool Creature::oublierPouvoir(Pouvoir* pouvoir)
 	return false;
 }
 
-void Creature::modifierNom(const std::string& nom)
-{
-	nom_ = nom;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierNom
+ * Description: Modifie nom_
+ * Paramètres: - (string) nom: Le nouveau nom de la créature
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierNom(const std::string & nom) { nom_ = nom; }
 
-void Creature::modifierAttaque(unsigned int attaque)
-{
-	attaque_ = attaque;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierAttaque
+ * Description: Modifie attaque_
+ * Paramètres: - (unsigned int) attaque: la nouvelle valeur de attaque_
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierAttaque(unsigned int attaque) { attaque_ = attaque; }
 
-void Creature::modifierDefense(unsigned int defense)
-{
-	defense_ = defense;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierDefense
+ * Description: Modifie defense_
+ * Paramètres: - (unsigned int) defense: la nouvelle valeur de defense_
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierDefense(unsigned int defense) { defense_ = defense; }
 
-void Creature::modifierPointDeVie(unsigned int pointDeVie)
-{
-	pointDeVie_ = pointDeVie;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierPointDeVie
+ * Description: Modifie pointDeVie_
+ * Paramètres: - (unsigned int) pointDeVie: la nouvelle valeur de pointDeVie_
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierPointDeVie(unsigned int pointDeVie) { pointDeVie_ = pointDeVie; }
 
-void Creature::modifierEnergie(unsigned int energie)
-{
-	energie_ = energie;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierEnergie
+ * Description: Modifie energie_
+ * Paramètres: - (unsigned int) energie: la nouvelle valeur de energie_
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierEnergie(unsigned int energie) { energie_ = energie; }
 
-void Creature::modifierExperience(unsigned int experience)
-{
-	experience_ = experience;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierExperience
+ * Description: Modifie experience_
+ * Paramètres: - (unsigned int) experience: la nouvelle valeur de experience_
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierExperience(unsigned int experience) { experience_ = experience; }
 
-void Creature::modifierNiveau(unsigned int niveau)
-{
-	niveau_ = niveau;
-}
+/****************************************************************************
+ * Fonction: Creature::modifierNiveau
+ * Description: Modifie niveau_
+ * Paramètres: - (unsigned int) niveau: la nouvelle valeur de niveau_
+ * Retour: aucun
+ ****************************************************************************/
+void Creature::modifierNiveau(unsigned int niveau) { niveau_ = niveau; }
 
+/****************************************************************************
+ * Fonction: Creature::modifierPouvoirs
+ * Description: Qui permet de modifier les pouvoirs d'une créature
+ * Paramètres: - (vector<Pouvoir*>) pouvoirs : La liste des nouveaux pouvoir
+ * Retour: aucun
+ ****************************************************************************/
 void Creature::modifierPouvoirs(std::vector<Pouvoir*> pouvoirs)
 {
 	while (pouvoirs_.size() != 0)
@@ -237,31 +385,26 @@ void Creature::modifierPouvoirs(std::vector<Pouvoir*> pouvoirs)
 	}
 }
 
-Creature::Creature(const Creature& creature)
-	: nom_(creature.nom_), attaque_(creature.attaque_), defense_(creature.defense_), pointDeVie_(creature.pointDeVie_),
-    pointDeVieTotal_(creature.pointDeVieTotal_), energie_(creature.energie_), energieTotal_(creature.energieTotal_),
-	 experience_(creature.experience_), experienceNecessaire_(creature.experienceNecessaire_), niveau_(creature.niveau_)
-{
-    for each (Pouvoir* pouvoir in  creature.pouvoirs_)
-    {
-        pouvoirs_.push_back(new Pouvoir(*pouvoir));
-    }
-}
-
+/****************************************************************************
+ * Fonction: operator=
+ * Description: Surcharge l'opérateur = qui écrase les attributs de lobjet de gauche par les attributs lobjet passés en paramètre.
+ * Paramètres: - (Creature) Creature : L'objet à écraser
+ * Retour: *this
+ ****************************************************************************/
 Creature& Creature::operator=(const Creature& creature)
 {
-	if (this != &creature)
-	{
-		nom_ = creature.nom_;
-		attaque_ = creature.attaque_;
-		defense_ = creature.defense_;
-		pointDeVie_ = creature.pointDeVie_;
+    if (this != &creature)
+    {
+        nom_ = creature.nom_;
+        attaque_ = creature.attaque_;
+        defense_ = creature.defense_;
+        pointDeVie_ = creature.pointDeVie_;
         pointDeVieTotal_ = creature.pointDeVieTotal_;
-		energie_ = creature.energie_;
+        energie_ = creature.energie_;
         energieTotal_ = creature.energieTotal_;
-		experience_ = creature.experience_;
+        experience_ = creature.experience_;
         experienceNecessaire_ = creature.experienceNecessaire_;
-		niveau_ = creature.niveau_;
+        niveau_ = creature.niveau_;
 
         while (pouvoirs_.size() != 0)
         {
@@ -269,14 +412,20 @@ Creature& Creature::operator=(const Creature& creature)
             pouvoirs_.back() = nullptr;
             pouvoirs_.pop_back();
         }
-        for each (Pouvoir* pouvoir in  creature.pouvoirs_)
+        for (Pouvoir* pouvoir : creature.pouvoirs_)
         {
             pouvoirs_.push_back(new Pouvoir(*pouvoir));
         }
-	}
-	return *this;
+    }
+    return *this;
 }
 
+/****************************************************************************
+ * Fonction: operator==
+ * Description: Surcharge l'opérateur == pour comparer deux créatures sans comparer leurs pouvoirs
+ * Paramètres: - (Dresseur) dresseur : L'objet à comparer
+ * Retour: (bool) true or false
+ ****************************************************************************/
 bool Creature::operator==(const Creature& creature) const
 {
 	return (nom_ == creature.nom_ && attaque_ == creature.attaque_ && defense_ == creature.defense_ && pointDeVie_ == creature.pointDeVie_
@@ -284,16 +433,36 @@ bool Creature::operator==(const Creature& creature) const
 		&& experience_ == creature.experience_ && experienceNecessaire_ == creature.experienceNecessaire_ && niveau_ == creature.niveau_);
 }
 
+/****************************************************************************
+ * Fonction: operator==
+ * Description: Surcharge l'opérateur == pour comparer deux nom de créature
+ * Paramètres:  - (String) nom : le nom à comparer
+ * Retour: (bool) true or false
+ ****************************************************************************/
 bool Creature::operator==(const std::string& nom) const
 {
 	return (nom_ == nom);
 }
 
+/****************************************************************************
+ * Fonction: operator==
+ * Description: Surcharge l'opérateur == pour comparer un nom d'une creature avec une creature
+ * Paramètres:  - (String) nom : le nom à comparer
+ *				- (creature) creature : L'objet à comparer
+ * Retour: (bool) true or false
+ ****************************************************************************/
 bool operator==(const std::string& nom, const Creature& creature)
 {
 	return (creature == nom);
 }
 
+/****************************************************************************
+ * Fonction: operator<<
+ * Description: Surcharge l'opérateur << pour afficher toute les informations d'une créature
+ * Paramètres: - (ostream&) os : objet de la classe ios qui permet la sortie
+ *			   - (Creature) creature  : L'objet creature que l'on veut afficher
+ * Retour: aucun
+ ****************************************************************************/
 std::ostream& operator<<(std::ostream& os, const Creature& creature) // TODO
 {
 	os << creature.nom_ << " a " << creature.attaque_ << " en attaque et " << creature.defense_ << " en defense, " << std::endl
@@ -304,7 +473,7 @@ std::ostream& operator<<(std::ostream& os, const Creature& creature) // TODO
 	os << "Pouvoirs : " << std::endl;
 	if (!creature.pouvoirs_.empty())
     {
-        for each (Pouvoir* pouvoir in creature.pouvoirs_)
+        for (Pouvoir* pouvoir : creature.pouvoirs_)
         {
             std::cout << *pouvoir << std::endl;
         }
@@ -315,6 +484,10 @@ std::ostream& operator<<(std::ostream& os, const Creature& creature) // TODO
 	return os;
 }
 
+/****************************************************************************
+  * Fonction:  CreatureMagique::obtenirTypeCreature
+  * Description: Permet d'obtenir le type d'une créature
+****************************************************************************/
 std::string Creature::obtenirTypeCreature() const
 {
 	return (typeid(*this).name());

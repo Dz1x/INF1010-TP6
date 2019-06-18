@@ -1,3 +1,11 @@
+/****************************************************************************
+ * Fichier: Polomon.h
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Definition et implementation de la classe Pokomon
+ ****************************************************************************/
+
 #ifndef POKOMON_H
 #define POKOMON_H
 

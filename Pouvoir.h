@@ -1,10 +1,13 @@
-/*
-Fichier: Pouvoir.h
-Auteur(s): Alexandre MAO
-Date de creation: 31 aout 2016
-Date de modification: 3 septembre 2016
-Description: La classe Pouvoir correspond aux differents attaques 
-*/
+/****************************************************************************
+ * Fichier: Pouvoir.h
+ * Auteur: Alexandre Mao
+ * Date: 31 août 2016
+ * Mise à jour: 03 sept 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Définition de la classe Pouvoir
+ *				La classe Pouvoir correspond aux differentes attaques.
+ ****************************************************************************/
+
 #ifndef POUVOIR_H
 #define POUVOIR_H
 
@@ -42,4 +45,4 @@ private:
 
 };
 
-#endif
+#endif // !POUVOIR_H

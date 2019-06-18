@@ -1,5 +1,12 @@
+/****************************************************************************
+ * Fichier: ChoixAttaque.cpp
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Implementation de la classe ChoixAttaque
+ ****************************************************************************/
+
 #include "ChoixAttaque.h"
-#include <QGridLayout>
 
 ChoixAttaque::ChoixAttaque(QWidget *parent) : QWidget(parent)
 {
@@ -11,17 +18,15 @@ ChoixAttaque::ChoixAttaque(QWidget *parent) : QWidget(parent)
 
     // Layout principal du Widget
     //!!!!!! A COMPLETER !!!!!!
-   QGridLayout* layout= new QGridLayout();
+    QGridLayout* layout= new QGridLayout();
     layout->addWidget(attaque1_,0,0);
     layout->addWidget(attaque2_,0,1);
     layout->addWidget(attaque3_,1,0);
     layout->addWidget(attaque4_,1,1);
     //Vous devez creer un gridLayout et y placer les differents boutons
     //N'oubliez pas de mettre en place le layout sur le widget
-   this->setLayout(layout);
-    //parent->setLayout(layout);
-    //parent->show();
-    //masquerAttaques();
+    this->setLayout(layout);
+    masquerAttaques();
 
 }
 

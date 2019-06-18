@@ -1,3 +1,11 @@
+/****************************************************************************
+ * Fichier: AffichageInformationCreature.cpp
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Implementation de la classe AffichageInformationCreature
+ ****************************************************************************/
+
 #include "AffichageInformationCreature.h"
 
 AffichageInformationCreature::AffichageInformationCreature(QWidget *parent)

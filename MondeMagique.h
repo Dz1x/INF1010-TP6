@@ -1,3 +1,11 @@
+/****************************************************************************
+ * Fichier: MondeMagique.h
+ * Auteur: Alexandre Mao
+ * Date: 15 novembre 2016
+ * Mise à jour: 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Definition et implementation de la classe MondeMagique
+ ****************************************************************************/
+
 #ifndef MONDE_MAGIQUE_H
 #define MONDE_MAGIQUE_H
 

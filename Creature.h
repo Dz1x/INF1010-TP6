@@ -1,10 +1,13 @@
-/*
-Fichier: Creature.h
-Auteur(s): Alexandre MAO, Maude CARRIER et Philippe TROCLET
-Date de creation: 31 aout 2016
-Date de modification: 11 octobre 2016 par Maude Carrier
-Description: Les creatures sont des etres destines au combat
-*/
+/****************************************************************************
+ * Fichier: Creature.h
+ * Auteur: Alexandre Mao, Maude CARRIER et Philippe TROCLET
+ * Date: 31 août 2016
+ * Mise à jour : 11 oct 2016 par Maude Carrier
+ * Mise à jour : 12 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Définition de la classe ObjetMagique
+ *				Les créatures sont des êtres destinées au combat.
+ ****************************************************************************/
+
 #ifndef CREATURE_H
 #define CREATURE_H
 
@@ -14,6 +17,8 @@ Description: Les creatures sont des etres destines au combat
 #include <algorithm>
 
 #include "Pouvoir.h"
+#include "ExceptionAttaqueEchouee.h"
+#include "ExceptionCreatureMorte.h"
 
 class Creature
 {
@@ -86,4 +91,4 @@ void Creature::trierPouvoir(const PredicatInferieur& compare)
 {
     std::sort(pouvoirs_.begin(), pouvoirs_.end(), compare);
 }
-#endif
+#endif // !CREATURE_H

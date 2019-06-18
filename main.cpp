@@ -1,3 +1,11 @@
+/****************************************************************************
+ * Fichier: main.cpp
+ * Auteur: Alexandre MAO
+ * Date: 31 aout 2016
+ * Mise à jour : 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Programme principal
+ ****************************************************************************/
+
 #include "Gamebay.h"
 #include <QApplication>
 #include <time.h>

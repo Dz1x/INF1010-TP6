@@ -1,11 +1,14 @@
-/*
-Fichier: ObjetMagique.h
-Auteur(s): Alexandre MAO
-Date de creation: 31 aout 2016
-Date de modification:  6 septembre 2016 par Maude Carrier
-Description: La classe ObjetMagique correspond aux differents objets utilisables
-			par le dresseur sur ses creatures
-*/
+/****************************************************************************
+ * Fichier: ObjetMagique.h
+ * Auteur: Alexandre Mao
+ * Date: 31 août 2016
+ * Mise à jour : 06 sept 2016 par Maude Carrier
+ * Mise à jour : 17 juin 2019 par Anass Bahir <anass.bahir@polymtl.ca> et Haroun Khalfi <haroun.khalfi@polymtl.ca>
+ * Description: Définition de la classe ObjetMagique
+ *				La classe ObjetMagique correspond aux differents objets utilisable
+ *				par le dresseur sur ses créatures.
+ ****************************************************************************/
+
 #ifndef OBJETMAGIQUE_H
 #define OBJETMAGIQUE_H
 
