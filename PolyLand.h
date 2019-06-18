@@ -14,7 +14,6 @@
 #include "MondeMagique.h"
 #include "Dresseur.h"
 #include "Creature.h"
-
 #include "Foncteur.h"
 #include <vector>
 #include <iostream>
@@ -45,6 +44,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const PolyLand& poly);
 
 private:
+
 //	std::vector<Dresseur*> dresseurs_;
 //	std::vector<Creature*> creatures_;
 	Dresseur& hero_;
